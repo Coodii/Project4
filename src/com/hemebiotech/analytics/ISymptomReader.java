@@ -8,12 +8,10 @@ import java.util.TreeMap;
  * @author Corentin Dixmier
  */
 public interface ISymptomReader {
-
 	/**
 	 * Method to get symptoms in a tree map.
 	 * 
 	 * @return The tree map of symptoms.
-	 * @throws Exception The exceptions can be thrown.
 	 */
-	public TreeMap<String,Integer> GetSymptoms() throws Exception;
+	public TreeMap<String,Integer> getSymptoms();
 }

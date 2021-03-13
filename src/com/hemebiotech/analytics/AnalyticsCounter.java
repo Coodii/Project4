@@ -1,7 +1,6 @@
 package com.hemebiotech.analytics;
 
-import java.io.FileWriter;
-import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * It is the class which contains the main program.
@@ -9,21 +8,17 @@ import java.util.Map;
  * @author Corentin Dixmier
  */
 public class AnalyticsCounter {
-	
+
+	public static final String INPUT_FILE = "symptoms.txt";
+	public static final String OUTPUT_FILE = "result.out";
 	/**
 	 * Program entry point.
 	 * 
 	 * @param args The arguments of the main method.
-	 * @throws Exception The exception which can be thrown.
 	 */
-	public static void main(String args[]) throws Exception {
-		Map <String, Integer> symptoms = new ReadSymptomDataFromFile("symptoms.txt").GetSymptoms();
-		// Allows the map to be shown as a string
-		String result = symptoms.toString().replace(
-				"{", "").replace("}", "").replace(", ", "\n").replace("=", ": ");
-		System.out.println(result);
-		// Generate a new text file "result.out"
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write(result);
-		writer.close();	}
+	public static void main(String args[]) {
+		TreeMap <String, Integer> symptoms = new ReadSymptomDataFromFile(INPUT_FILE).getSymptoms();
+		WriteSymptomsInAFile writeSymptoms = new WriteSymptomsInAFile(symptoms, OUTPUT_FILE);
+		writeSymptoms.write();	
+	}	
 }
