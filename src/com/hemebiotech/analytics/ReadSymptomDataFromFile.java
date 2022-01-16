@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.TreeMap;
 
+import com.hemebiotech.analytics.exception.InputFileException;
+
 /**
  * This class fills a map with informations from a file.
  * 
@@ -33,17 +35,17 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 	 * @return The symptoms.
 	 */
 	@Override
-	public TreeMap<String, Integer> getSymptoms() {
+	public TreeMap<String, Integer> getSymptoms() throws InputFileException {
 		// The buffer reader used to read a file
 		BufferedReader reader;
+		// Declares a variable symptoms of type TreeMap and then instancializes it
+		// We use a tree map to sort it alphabetically
+		TreeMap <String,Integer> symptoms = new TreeMap <String,Integer>();
 		try {
 			reader = new BufferedReader (new FileReader(filepath));
-			// Declares a variable symptoms of type TreeMap and then instancializes it
-			// We use a tree map to sort it alphabetically
-			TreeMap <String,Integer> symptoms = new TreeMap <String,Integer>();
 			// Fills the tree map.
-			while (reader.readLine() != null) {
-				String symptom = reader.readLine();
+			String symptom;
+			while ((symptom = reader.readLine()) != null) {
 				if (symptoms.containsKey(symptom)) {
 					symptoms.put(symptom, symptoms.get(symptom) + 1); 
 				} else {
@@ -51,14 +53,13 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 				}
 			}
 			reader.close();
-			return symptoms;	
+				
 		} catch (FileNotFoundException e) {
-			System.out.println("No file found.");
-			System.exit(0);
+			throw new InputFileException("No file found.");
 		} catch (IOException e2) {
-			System.out.println("IO exceptions found when reading the file.");
+			throw new InputFileException("Error while reading file.");
 		}
-
-		return getSymptoms();
+			return symptoms;
+	
 	} 
 }

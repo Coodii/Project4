@@ -4,6 +4,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.TreeMap;
 
+import com.hemebiotech.analytics.exception.OutputFileException;
+
 /**
  * It is the class which create display and create a file from a TreeMap.
  * 
@@ -13,12 +15,12 @@ import java.util.TreeMap;
 public class WriteSymptomsInAFile {
 
 	/**
-	 * The Treemap and the name of the file.
+	 * The Treemap and the output file.
 	 */
 	public TreeMap<String, Integer> symptoms;
 	public String outputfile;
-	
-	
+
+
 	/**
 	 * Constructor of the class
 	 * 
@@ -29,11 +31,11 @@ public class WriteSymptomsInAFile {
 		this.symptoms = symptoms;
 		this.outputfile = outputfile ;
 	}
-	
+
 	/**
-	 * This method converts the TreeMap in a String and then write the result in a map.
+	 * This method converts the TreeMap in a String and writes the result in a file.
 	 */
-	public void write() {
+	public void write() throws OutputFileException {
 		String result = symptoms.toString().replace(
 				"{", "").replace("}", "").replace(", ", "\n").replace("=", ": ");
 		System.out.println(result);
@@ -43,7 +45,7 @@ public class WriteSymptomsInAFile {
 			writer.write(result);
 			writer.close();	
 		} catch (IOException e) {
-			System.out.println("IO exceptions found when writting in the file.");
+			throw new OutputFileException("Error while writting in file " + outputfile);
 		}
 	}
 }
